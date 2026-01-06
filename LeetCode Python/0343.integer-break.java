@@ -1,0 +1,12 @@
+class Solution:
+    def integerBreak(self, n: int) -> int:
+        if n <= 3:
+            return n - 1
+
+        product = 1
+
+        while n > 4:
+            product = product * 3
+            n = n - 3
+        
+        return product * n
