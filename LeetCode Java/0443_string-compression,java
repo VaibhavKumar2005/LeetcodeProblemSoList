@@ -1,0 +1,67 @@
+class Solution {
+    public int compress(char[] chars) {
+
+        /*
+         * 'write' points to the index where we write
+         * the compressed characters back into the same array.
+         * Everything before 'write' is the valid compressed result.
+         */
+        int write = 0;
+
+        /*
+         * 'i' is the read pointer used to scan the original array
+         * and identify groups of consecutive characters.
+         */
+        int i = 0;
+
+        // Process the array until all characters are read
+        while (i < chars.length) {
+
+            /*
+             * Store the current character.
+             * We will count how many times this character
+             * repeats consecutively.
+             */
+            char currentChar = chars[i];
+            int count = 0;
+
+            /*
+             * Move 'i' forward while the same character repeats
+             * and keep increasing the count.
+             */
+            while (i < chars.length && chars[i] == currentChar) {
+                i++;
+                count++;
+            }
+
+            /*
+             * Write the character to the compressed position.
+             * Every group contributes at least one character.
+             */
+            chars[write] = currentChar;
+            write++;
+
+            /*
+             * If the character appears more than once,
+             * write the count after the character.
+             * 
+             * The count may have multiple digits (e.g., 12),
+             * so we convert it to a string and write each digit separately.
+             */
+            if (count > 1) {
+                String countStr = String.valueOf(count);
+
+                for (char digit : countStr.toCharArray()) {
+                    chars[write] = digit;
+                    write++;
+                }
+            }
+        }
+
+        /*
+         * 'write' now represents the length of the compressed array.
+         * Characters beyond this index are irrelevant.
+         */
+        return write;
+    }
+}
